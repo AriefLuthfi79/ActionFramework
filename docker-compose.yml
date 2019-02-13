@@ -1,0 +1,36 @@
+version: '3.1'
+
+services:
+  php-fpm:
+    build:
+      context: ./config/docker/php-fpm
+    volumes:
+      - .:/var/www
+
+  nginx:
+    build:
+      context: ./config/docker/nginx
+    volumes:
+      - .:/var/www
+      - ./config/docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./config/docker/nginx/sites/:/etc/nginx/sites-available
+      - ./config/docker/nginx/conf.d/:/etc/nginx/conf.d
+    depends_on:
+      - php-fpm
+    ports:
+      - "80:80"
+      - "443:443"
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+  mariadb:
+    build:
+      context: ./config/docker/database
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: qwerty123
+      MYSQL_DATABASE: mvc-framework
