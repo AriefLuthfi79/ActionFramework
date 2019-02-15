@@ -13,3 +13,18 @@ if (! function_exists('pre')) {
 		echo '<pre>';
 	}
 }
+
+if (! function_exists('array_get')) {
+	/**
+	* Get value from array if the key found otherwise
+	* get default value
+	* 
+	* @param array $array
+	* @param string $key
+	* @param mixed $default
+	* @return void
+	*/
+	function array_get(array $array, string $key, $default = null) {
+		return isset($array[$key]) ? $array[$key] : $default;
+	}
+}
