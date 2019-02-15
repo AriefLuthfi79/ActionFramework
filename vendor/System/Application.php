@@ -4,17 +4,17 @@ namespace System;
 
 class Application
 {
-	/*
+	/**
 	* Container
 	*
 	* @var array associative $container
 	*/
 	private $container = [];
 
-	/*
+	/**
 	* Constructor
 	*
-	* @params System\File $file
+	* @param System\File $file
 	*/
 	public function __construct(File $file)
 	{
@@ -33,7 +33,7 @@ class Application
 		$this->session->start();
 	}
 
-	/*
+	/**
 	* Share the given key|value Through Application
 	*
 	* @param string $key
@@ -56,7 +56,7 @@ class Application
 		return $this->get($key);
 	}
 
-	/*
+	/**
 	* Load classes through autoloading implementation
 	*
 	* @param string $class
@@ -71,7 +71,7 @@ class Application
 		}
 	}
 
-	/*
+	/**
 	* Get shared value
 	*
 	* @param string $key
@@ -90,7 +90,7 @@ class Application
 		return $this->container[$key];
 	}
 
-	/*
+	/**
 	* Determinae if the given key is setup
 	*
 	* @return bool
@@ -101,7 +101,7 @@ class Application
 		return isset($this->container[$key]);
 	}
 
-	/*
+	/**
 	* Determine if the given alias to core class
 	*
 	* @param string $alias
@@ -113,7 +113,7 @@ class Application
 		return isset($coreClasses[$alias]);
 	}
 
-	/*
+	/**
 	* Create new instance of object from core classes
 	*
 	* @param string key
@@ -126,7 +126,7 @@ class Application
 		return new $object($this);	
 	}
 
-	/*
+	/**
 	* Register classes in spl_autoload_register and bundled
 	*
 	* @return void
@@ -136,17 +136,17 @@ class Application
 		spl_autoload_register([$this, 'load']);
 	}
 
-	/*
+	/**
 	* Load the helpers in vendor directory
 	*
-	* return @var void
+	* @return void
 	*/
 	private function loadHelpers()
 	{
 		return $this->file->require($this->file->toVendor('helpers.php'));
 	}
 
-	/*
+	/**
 	* Get all core with aliases
 	*
 	* @return array associative
