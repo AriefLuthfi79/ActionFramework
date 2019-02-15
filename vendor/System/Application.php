@@ -54,12 +54,7 @@ class Application
 	*/
 	public function load($class)
 	{
-		if (strpos($class, 'App') === 0) {
-			$file = $this->file->to($class . '.php');
-		} else {
-			// get the class from vendor directory
-			$file = $this->file->toVendor($class . '.php');
-		}
+		$file = strpos($class, 'App') === 0 ? $this->file->to($class . '.php') : $this->file->toVendor($class . '.php');
 		
 		if ($this->file->exists($file)) {
 			$this->file->require($file);
