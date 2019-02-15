@@ -23,6 +23,16 @@ class Application
 		$this->loadHelpers();
 	}
 
+	/**
+	* Run the container Application
+	*
+	* @return void
+	*/
+	public function run()
+	{
+		$this->session->start();
+	}
+
 	/*
 	* Share the given key|value Through Application
 	*

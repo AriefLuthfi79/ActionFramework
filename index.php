@@ -8,6 +8,3 @@ use System\File;
 
 $file = new File(__DIR__);
 $app = new Application($file);
-
-$app->session->set("Oke", "Test");
-var_dump($app->session->all());
