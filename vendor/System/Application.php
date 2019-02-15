@@ -69,7 +69,51 @@ class Application
 	*/
 	public function get($key)
 	{
-		return isset($this->container[$key]) ? $this->container[$key] : null;
+		if (!$this->isSharing($key)) {
+			if ($this->isCoreAliases($key)) {
+				$this->share($key, $this->createNewObjectCore($key));
+			} else {
+				die($key . ' not found in application container');
+			}
+		}
+
+		return $this->container[$key];
+	}
+
+	/*
+	* Determinae if the given key is setup
+	*
+	* @return bool
+	* @param string $key
+	*/
+	public function isSharing($key)
+	{
+		return isset($this->container[$key]);
+	}
+
+	/*
+	* Determine if the given alias to core class
+	*
+	* @param string $alias
+	* @return bool
+	*/
+	private function isCoreAliases($alias)
+	{
+		$coreClasses = $this->coreClasses();
+		return isset($coreClasses[$alias]);
+	}
+
+	/*
+	* Create new instance of object from core classes
+	*
+	* @param string key
+	* @return object
+	*/
+	private function createNewObjectCore(string $key)
+	{
+		$coreClasses = $this->coreClasses();
+		$object = $coreClasses[$key];
+		return new $object($this);	
 	}
 
 	/*
@@ -90,5 +134,25 @@ class Application
 	private function loadHelpers()
 	{
 		return $this->file->require($this->file->toVendor('helpers.php'));
+	}
+
+	/*
+	* Get all core with aliases
+	*
+	* @return array associative
+	*/
+
+	private function coreClasses()
+	{
+		return [
+			'request' 	=> 'System\\Http\\Request',
+			'response' 	=> 'System\\Http\\Response',
+			'session' 	=> 'System\\Session',
+			'cookie'	=> 'System\\Cookie',
+			'load'		=> 'System\\Loader',
+			'html'		=> 'System\\Html',
+			'db'		=> 'System\\Database',
+			'view'		=> 'System\\View\\ViewFactory'
+		];
 	}
 }
